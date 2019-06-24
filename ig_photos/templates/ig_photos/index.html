@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="wrapper">
+
+  <div class="content">
+
+    {% for photo in photo_list %}
+
+    <div class="row">
+      <div class="imageContainer">
+        <a href="{{ photo.url }}"><img src="{{ photo.photo.url }}"/></a>
+      </div>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+{% endblock %}
