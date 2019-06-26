@@ -17,6 +17,7 @@ pillow = "*"
 django-tastypie = "*"
 boto3 = "*"
 requests = "*"
+django-environ = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

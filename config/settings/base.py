@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ig_photos',
     'tastypie',
-    'storages'
 ]
 
 MIDDLEWARE = [
