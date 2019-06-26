@@ -21,7 +21,7 @@ from ig_photos import views
 from ig_photos.api import PhotoResource
 from tastypie.api import Api
 
-api = Api(api_name='test')
+api = Api(api_name='ig_photos')
 api.register(PhotoResource())
 
 urlpatterns = [
