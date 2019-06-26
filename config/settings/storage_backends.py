@@ -11,6 +11,6 @@ class StaticStorage(S3Boto3Storage):
     querystring_auth = False
 
 class MediaStorage(S3Boto3Storage):
-    location = 'media'
+    location = settings.MEDIA_URL
     default_acl='public-read'
     querystring_auth = False
