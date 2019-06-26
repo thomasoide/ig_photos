@@ -2,12 +2,34 @@
 Django project settings for the production environment.
 """
 from .base import * # noqa
+import environ
 
-DEBUG = False
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+env = environ.Env()
+environ.Env.read_env('../../.env')
+
+TEST=env.ENVIRON
+
+env = environ.Env(
+    AWS_ACCESS_KEY_ID=(str, False),
+    AWS_SECRET_ACCESS_KEY=(str, False),
+    AWS_STORAGE_BUCKET_NAME=(str, False))
+environ.Env.read_env('/var/www/ig_photos/.env')
+
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
 ]
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
 
 INSTALLED_APPS = INSTALLED_APPS + ['storages',]
 
@@ -31,21 +53,23 @@ INSTALLED_APPS = INSTALLED_APPS + ['storages',]
 # # Same idea as data location in local.py
 # DATA_LOCATION = 'rmp'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_DEFAULT_ACL = 'public-read'
-AWS_BUCKET_ACL = 'public-read'
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ENCRYPTION = True
+#AWS_AUTO_CREATE_BUCKET = True
+#AWS_DEFAULT_ACL = 'public-read'
+#AWS_BUCKET_ACL = 'public-read'
 
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME
+#AWS_S3_OBJECT_PARAMETERS = {'CacheContro': 'max-age=86400'}
 
 STATIC_LOCATION = 'static'
-STATIC_URL=f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-STATICFILES_STORAGE = 'config.settings.storage_backends.StaticStorage'
+STATIC_URL='/ig-photos/static/'
+#STATICFILES_STORAGE = 'config.settings.storage_backends.StaticStorage'
 
 PUBLIC_MEDIA_LOCATION = 'media'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+MEDIA_URL = 'news/projects-staging/ig-photos/media/'
 DEFAULT_FILE_STORAGE = 'config.settings.storage_backends.MediaStorage'

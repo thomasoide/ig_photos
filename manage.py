@@ -7,7 +7,7 @@ import sys
 def main():
     # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'template_proj.settings') -- DJANGO's OUT OF THE BOX setup
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.prod')
     # ^^^ custom settting so that management commands default as local settings
     try:
         from django.core.management import execute_from_command_line
